@@ -73,7 +73,7 @@ func select_tests(metadata: Dictionary) -> void:
 					tests.append(container)
 			push_warning("RUN FAILURES NOT IMPLEMENTED")
 	clear()
-	emit_signal("_tests_selected", tests)
+	emit_signal("_tests_selected", tests, metadata.run_in_editor)
 	
 func set_last_run_success(results) -> void:
 	for result in results:
@@ -97,12 +97,18 @@ func _on_dirs_about_to_show() -> void:
 	Directories.set_as_minsize()
 	Directories.add_item("Run All")
 	Directories.set_item_icon(0, load("res://addons/WAT/assets/play.png"))
+	Directories.add_item("Run With Debug")
+	Directories.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
 	Directories.add_item("Rerun Failures")
-	Directories.set_item_icon(1, load("res://addons/WAT/assets/failed.png"))
+	Directories.set_item_icon(2, load("res://addons/WAT/assets/failed.png"))
+	Directories.add_item("Rerun Failures With Debug")
+	Directories.set_item_icon(3, load("res://addons/WAT/assets/failed.png"))
 	Directories.add_submenu_item("Tags", "Tags")
-	Directories.set_item_icon(2, load("res://addons/WAT/assets/label.png"))
-	Directories.set_item_metadata(0, {command = RUN_ALL})
-	Directories.set_item_metadata(1, {command = RUN_FAILURES})
+	Directories.set_item_icon(4, load("res://addons/WAT/assets/label.png"))
+	Directories.set_item_metadata(0, {command = RUN_ALL, run_in_editor = true})
+	Directories.set_item_metadata(1, {command = RUN_ALL, run_in_editor = false})
+	Directories.set_item_metadata(2, {command = RUN_FAILURES, run_in_editor = true})
+	Directories.set_item_metadata(3, {command = RUN_FAILURES, run_in_editor = false})
 	var dirs: Array = test.dirs
 	if dirs.empty():
 		return
@@ -127,8 +133,11 @@ func _on_scripts_about_to_show(scripts) -> void:
 	scripts.set_as_minsize()
 	scripts.add_item("Run All")
 	var currentdir: String = Directories.get_item_text(Directories.get_item_index(scripts.name as int))
-	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir})
+	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir, run_in_editor = true})
 	scripts.set_item_icon(0,load("res://addons/WAT/assets/folder.png"))
+	scripts.add_item("Run All With Debug")
+	scripts.set_item_metadata(1, {command = RUN_DIR, path = currentdir, run_in_editor = false})
+	scripts.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
 	var scriptlist: Array = test[currentdir]
 	if scriptlist.empty():
 		return
@@ -151,6 +160,7 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	methods.clear()
 	methods.set_as_minsize()
 	methods.add_item("Run All")
+	methods.add_item("Run All Debug")
 	var tag_editor = TagEditor.duplicate(true)
 	pool.append(tag_editor)
 	tag_editor.name = "tagEditor"
@@ -158,10 +168,12 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	methods.add_submenu_item("Edit Tags", tag_editor.name)
 	tag_editor.connect(ABOUT_TO_SHOW, self, "_on_tag_editor_about_to_show", [tag_editor, scripts])
 	var currentScript: String = scripts.get_item_text(scripts.get_item_index(methods.name as int))
-	methods.set_item_metadata(0, {command = RUN_SCRIPT, path = currentScript})
-	methods.set_item_metadata(1, {command = RUN_TAG, tag = "?"})
+	methods.set_item_metadata(0, {command = RUN_SCRIPT, path = currentScript, run_in_editor = true})
+	methods.set_item_metadata(1, {command = RUN_SCRIPT, path = currentScript, run_in_editor = false})
+	methods.set_item_metadata(2, {command = RUN_TAG, tag = "?"})
 	methods.set_item_icon(0, load("res://addons/WAT/assets/script.png"))
-	methods.set_item_icon(1, load("res://addons/WAT/assets/label.png"))
+	methods.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
+	methods.set_item_icon(2, load("res://addons/WAT/assets/label.png"))
 	var script = test.scripts[currentScript]["script"]
 	var methodlist = []
 	if script is GDScript:
@@ -175,8 +187,14 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 		if method.name.begins_with("test") or script is CSharpScript:
 			methods.add_item(method.name)
 			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name})
+			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = true})
 			methods.set_item_icon(idx, load("res://addons/WAT/assets/function.png"))
 			idx += 1
+			methods.add_item(method.name + " (Debug) ")
+			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = false})
+			methods.set_item_icon(idx, load("res://addons/WAT/assets/function.png"))
+			idx += 1
+
 	
 func _on_tags_about_to_show() -> void:
 	refresh()
@@ -186,7 +204,10 @@ func _on_tags_about_to_show() -> void:
 	var idx: int = Tags.get_item_count()
 	for taglabel in tags:
 		Tags.add_item(taglabel)
-		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel})
+		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel, run_in_editor = true})
+		idx += 1
+		Tags.add_item(taglabel + " (Debug) ")
+		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel, run_in_editor = false})
 		idx += 1
 		
 func _on_tag_editor_about_to_show(tagEditor, scripts) -> void:

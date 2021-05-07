@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/WAT/ui/scripts/links.gd" type="Script" id=1]
 [ext_resource path="res://addons/WAT/assets/play.png" type="Texture" id=2]
 [ext_resource path="res://addons/WAT/ui/scenes/TestMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/WAT/ui/scenes/RunSettings.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/WAT/ui/scripts/save_metadata.gd" type="Script" id=5]
+[ext_resource path="res://addons/WAT/assets/play_debug.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -43,16 +44,31 @@ shortcut = SubResource( 7 )
 icon = ExtResource( 2 )
 flat = true
 
-[node name="TestMenu" parent="." instance=ExtResource( 3 )]
+[node name="QuickRunAllDebug" type="Button" parent="."]
 margin_left = 20.0
-margin_right = 102.0
+margin_right = 36.0
+margin_bottom = 16.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+shortcut = SubResource( 7 )
+icon = ExtResource( 6 )
+flat = true
+
+[node name="TestMenu" parent="." instance=ExtResource( 3 )]
+margin_left = 40.0
+margin_right = 122.0
 margin_bottom = 20.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="ResultsMenu" type="MenuButton" parent="."]
-margin_left = 106.0
-margin_right = 202.0
+margin_left = 126.0
+margin_right = 222.0
 margin_bottom = 20.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -60,14 +76,14 @@ text = "Filter Results"
 items = [ "Expand All", null, 0, false, false, 0, 0, null, "", false, "Collapse All", null, 0, false, false, 1, 0, null, "", false, "Expand All Failures", null, 0, false, false, 2, 0, null, "", false ]
 
 [node name="RunSettings" parent="." instance=ExtResource( 4 )]
-margin_left = 206.0
-margin_right = 634.0
+margin_left = 226.0
+margin_right = 629.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="SaveMetadata" type="Button" parent="."]
-margin_left = 638.0
-margin_right = 742.0
+margin_left = 633.0
+margin_right = 737.0
 margin_bottom = 24.0
 hint_tooltip = "Save metadata before uploading to source control if you use continous integration."
 text = "Save Metadata"
@@ -75,8 +91,8 @@ flat = true
 script = ExtResource( 5 )
 
 [node name="Links" type="MenuButton" parent="."]
-margin_left = 746.0
-margin_right = 791.0
+margin_left = 741.0
+margin_right = 786.0
 margin_bottom = 20.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
