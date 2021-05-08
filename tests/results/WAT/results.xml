@@ -11,9 +11,9 @@
 	</testsuite>
 
 	<testsuite name="Given A Boolean Assertion (GDScript WATTest)" failures="0"  tests="4" time="0">
+		<testcase name=" Value is true" time="0"></testcase>
+		<testcase name=" Value is true" time="0"></testcase>
 		<testcase name="True is true" time="0"></testcase>
-		<testcase name=" Value is true" time="0"></testcase>
-		<testcase name=" Value is true" time="0"></testcase>
 		<testcase name=" False is false" time="0"></testcase>
 	</testsuite>
 
