@@ -4,104 +4,119 @@
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/BooleanTest.cs": {
 		"path": "res://tests/BooleanTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/BooleanTest.gd": {
 		"path": "res://tests/BooleanTest.gd",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/EqualityTest.cs": {
 		"path": "res://tests/EqualityTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/FileTest.cs": {
 		"path": "res://tests/FileTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/IsInstanceTest.cs": {
 		"path": "res://tests/IsInstanceTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/IsNotInstanceTest.cs": {
 		"path": "res://tests/IsNotInstanceTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/NameSpaced.cs": {
 		"path": "res://tests/NameSpaced.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/ObjectTest.cs": {
 		"path": "res://tests/ObjectTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/ParameterizedTest.cs": {
 		"path": "res://tests/ParameterizedTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/RangeTest.cs": {
 		"path": "res://tests/RangeTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/RecorderTest.cs": {
 		"path": "res://tests/RecorderTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/StringTest.cs": {
 		"path": "res://tests/StringTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/WatcherTest.cs": {
 		"path": "res://tests/WatcherTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0
 	},
 	"res://tests/YieldTest.cs": {
 		"path": "res://tests/YieldTest.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": true,
+		"yield_time": 0.5
 	}
 }
