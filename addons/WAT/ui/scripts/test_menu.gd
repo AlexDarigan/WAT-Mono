@@ -80,7 +80,7 @@ func select_tests(metadata: Dictionary) -> void:
 					tests.append(container)
 			push_warning("RUN FAILURES NOT IMPLEMENTED")
 	clear()
-	emit_signal("_tests_selected", tests)
+	emit_signal("_tests_selected", tests, metadata.run_in_editor)
 	
 func set_last_run_success(results) -> void:
 	for result in results:
@@ -140,7 +140,7 @@ func _on_scripts_about_to_show(scripts) -> void:
 	scripts.set_as_minsize()
 	scripts.add_item("Run All")
 	var currentdir: String = Directories.get_item_text(Directories.get_item_index(scripts.name as int))
-	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir})
+	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir, run_in_editor = true})
 	scripts.set_item_icon(0, FOLDER_ICON)
 	scripts.add_item("Run All With Debug")
 	scripts.set_item_metadata(1, {command = RUN_DIR, path = currentdir, run_in_editor = false})
@@ -167,6 +167,7 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	methods.clear()
 	methods.set_as_minsize()
 	methods.add_item("Run All")
+	methods.add_item("Run All Debug")
 	var tag_editor = TagEditor.duplicate(true)
 	pool.append(tag_editor)
 	tag_editor.name = "tagEditor"
@@ -174,10 +175,12 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	methods.add_submenu_item("Edit Tags", tag_editor.name)
 	tag_editor.connect(ABOUT_TO_SHOW, self, "_on_tag_editor_about_to_show", [tag_editor, scripts])
 	var currentScript: String = scripts.get_item_text(scripts.get_item_index(methods.name as int))
-	methods.set_item_metadata(0, {command = RUN_SCRIPT, path = currentScript})
-	methods.set_item_metadata(1, {command = RUN_TAG, tag = "?"})
+	methods.set_item_metadata(0, {command = RUN_SCRIPT, path = currentScript, run_in_editor = true})
+	methods.set_item_metadata(1, {command = RUN_SCRIPT, path = currentScript, run_in_editor = false})
+	methods.set_item_metadata(2, {command = RUN_TAG, tag = "?"})
 	methods.set_item_icon(0, SCRIPT_ICON)
-	methods.set_item_icon(1, LABEL_ICON)
+	methods.set_item_icon(1, PLAY_DEBUG_ICON)
+	methods.set_item_icon(2, LABEL_ICON)
 	var script = test.scripts[currentScript]["script"]
 	var methodlist = []
 	if script is GDScript:
@@ -190,9 +193,14 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	for method in methodlist:
 		if method.name.begins_with("test") or script is CSharpScript:
 			methods.add_item(method.name)
-			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name})
+			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = true})
 			methods.set_item_icon(idx, FUNCTION_ICON)
 			idx += 1
+			methods.add_item(method.name + " (Debug) ")
+			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = false})
+			methods.set_item_icon(idx, load("res://addons/WAT/assets/function.png"))
+			idx += 1
+
 	
 func _on_tags_about_to_show() -> void:
 	refresh()
@@ -202,7 +210,10 @@ func _on_tags_about_to_show() -> void:
 	var idx: int = Tags.get_item_count()
 	for taglabel in tags:
 		Tags.add_item(taglabel)
-		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel})
+		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel, run_in_editor = true})
+		idx += 1
+		Tags.add_item(taglabel + " (Debug) ")
+		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel, run_in_editor = false})
 		idx += 1
 		
 func _on_tag_editor_about_to_show(tagEditor, scripts) -> void:

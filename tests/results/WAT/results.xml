@@ -31,6 +31,8 @@
 		<testcase name="ThisFileExists" time="0"></testcase>
 		<testcase name="ImaginaryFileDoesNotExist" time="0"></testcase>
 		<testcase name="EmptyPathDoesNotExist" time="0"></testcase>
+<<<<<<< HEAD
+=======
 	</testsuite>
 
 	<testsuite name="Is Instance ( class / type ) Assertions" failures="0"  tests="19" time="0">
@@ -128,19 +130,7 @@
 		<testcase name="When we watch and emit a signal" time="0"></testcase>
 		<testcase name="When we Watch and Do not Emit a Signal" time="0"></testcase>
 		<testcase name="WhenWeWatchASignalAndEmitItMultipleTimes" time="0"></testcase>
-	</testsuite>
-
-	<testsuite name="Given a Yield" failures="0"  tests="10" time="0">
-		<testcase name="TestWhenWeYieldInStart" time="0"></testcase>
-		<testcase name="TestWhenWeYieldInPre" time="0"></testcase>
-		<testcase name="TestWhenWeYieldInExecute" time="0"></testcase>
-		<testcase name="YielderIsNotActiveWhenAsserting" time="0"></testcase>
-		<testcase name="WhenTheYielderTimesOut" time="0"></testcase>
-		<testcase name="WhenWeCallUntilTimeout" time="0"></testcase>
-		<testcase name="WhenASignalBeingYieldedOnIsEmittedTheYielderIsStopped" time="0"></testcase>
-		<testcase name="WhenYielderIsFinishedSignalsAreDisconnected" time="0"></testcase>
-		<testcase name="WhenWeCallUntilSignal" time="0"></testcase>
-		<testcase name="WhenTheYielderHearsOurSignal" time="0"></testcase>
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 	</testsuite>
 
 </testsuites>

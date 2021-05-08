@@ -28,16 +28,8 @@ margin_bottom = 24.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 min_value = 1.0
-max_value = 15.0
+max_value = 7.0
 value = 1.0
 prefix = "Run on"
 suffix = "Thread(s)"
 script = ExtResource( 2 )
-
-[node name="RunInEditor" type="CheckBox" parent="."]
-margin_left = 293.0
-margin_right = 403.0
-margin_bottom = 24.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "Run In Editor"
