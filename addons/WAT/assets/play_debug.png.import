@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/rerun_failures.png-5ad7078d6be4238a081959c64ac4f408.stex"
+path="res://.import/play_debug.png-b9aaa3991495e16a0dfe9e46268ae0a2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/WAT/assets/rerun_failures.png"
-dest_files=[ "res://.import/rerun_failures.png-5ad7078d6be4238a081959c64ac4f408.stex" ]
+source_file="res://addons/WAT/assets/play_debug.png"
+dest_files=[ "res://.import/play_debug.png-b9aaa3991495e16a0dfe9e46268ae0a2.stex" ]
 
 [params]
 

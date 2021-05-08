@@ -6,6 +6,7 @@ var FOLDER_ICON: Texture
 var FAILED_ICON: Texture
 var SCRIPT_ICON: Texture
 var PLAY_ICON: Texture
+var PLAY_DEBUG_ICON: Texture
 var LABEL_ICON: Texture
 var FUNCTION_ICON: Texture
 const TestGatherer: Script = preload("res://addons/WAT/editor/test_gatherer.gd")
@@ -103,12 +104,18 @@ func _on_dirs_about_to_show() -> void:
 	Directories.set_as_minsize()
 	Directories.add_item("Run All")
 	Directories.set_item_icon(0, PLAY_ICON)
+	Directories.add_item("Run With Debug")
+	Directories.set_item_icon(1, PLAY_DEBUG_ICON)
 	Directories.add_item("Rerun Failures")
-	Directories.set_item_icon(1, FAILED_ICON)
+	Directories.set_item_icon(2, FAILED_ICON)
+	Directories.add_item("Rerun Failures With Debug")
+	Directories.set_item_icon(3, FAILED_ICON)
 	Directories.add_submenu_item("Tags", "Tags")
-	Directories.set_item_icon(2, LABEL_ICON)
-	Directories.set_item_metadata(0, {command = RUN_ALL})
-	Directories.set_item_metadata(1, {command = RUN_FAILURES})
+	Directories.set_item_icon(4, LABEL_ICON)
+	Directories.set_item_metadata(0, {command = RUN_ALL, run_in_editor = true})
+	Directories.set_item_metadata(1, {command = RUN_ALL, run_in_editor = false})
+	Directories.set_item_metadata(2, {command = RUN_FAILURES, run_in_editor = true})
+	Directories.set_item_metadata(3, {command = RUN_FAILURES, run_in_editor = false})
 	var dirs: Array = test.dirs
 	if dirs.empty():
 		return
@@ -135,6 +142,9 @@ func _on_scripts_about_to_show(scripts) -> void:
 	var currentdir: String = Directories.get_item_text(Directories.get_item_index(scripts.name as int))
 	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir})
 	scripts.set_item_icon(0, FOLDER_ICON)
+	scripts.add_item("Run All With Debug")
+	scripts.set_item_metadata(1, {command = RUN_DIR, path = currentdir, run_in_editor = false})
+	scripts.set_item_icon(1, PLAY_DEBUG_ICON)
 	var scriptlist: Array = test[currentdir]
 	if scriptlist.empty():
 		return
@@ -350,3 +360,4 @@ func _setup_editor_assets(assets_registry):
 	PLAY_ICON = assets_registry.load_asset("assets/play.png")
 	LABEL_ICON = assets_registry.load_asset("assets/label.png")
 	FUNCTION_ICON = assets_registry.load_asset("assets/function.png")
+	PLAY_DEBUG_ICON = assets_registry.load_asset("assets/play_debug.png")
