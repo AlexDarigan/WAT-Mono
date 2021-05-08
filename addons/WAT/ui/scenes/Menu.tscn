@@ -5,7 +5,11 @@
 [ext_resource path="res://addons/WAT/ui/scenes/TestMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/WAT/ui/scenes/RunSettings.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/WAT/ui/scripts/save_metadata.gd" type="Script" id=5]
+<<<<<<< HEAD
 [ext_resource path="res://addons/WAT/assets/play_debug.png" type="Texture" id=6]
+=======
+[ext_resource path="res://addons/WAT/ui/scripts/menu.gd" type="Script" id=6]
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -26,15 +30,16 @@ shortcut = SubResource( 6 )
 margin_right = 1004.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="QuickRunAll" type="Button" parent="."]
 margin_right = 16.0
-margin_bottom = 16.0
+margin_bottom = 24.0
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 5
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
 custom_styles/focus = SubResource( 3 )
@@ -46,6 +51,7 @@ flat = true
 
 [node name="QuickRunAllDebug" type="Button" parent="."]
 margin_left = 20.0
+<<<<<<< HEAD
 margin_right = 36.0
 margin_bottom = 16.0
 size_flags_horizontal = 0
@@ -63,39 +69,65 @@ flat = true
 margin_left = 40.0
 margin_right = 122.0
 margin_bottom = 20.0
+=======
+margin_right = 102.0
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 5
 
 [node name="ResultsMenu" type="MenuButton" parent="."]
+<<<<<<< HEAD
 margin_left = 126.0
 margin_right = 222.0
 margin_bottom = 20.0
+=======
+margin_left = 106.0
+margin_right = 202.0
+margin_bottom = 24.0
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 5
 text = "Filter Results"
 items = [ "Expand All", null, 0, false, false, 0, 0, null, "", false, "Collapse All", null, 0, false, false, 1, 0, null, "", false, "Expand All Failures", null, 0, false, false, 2, 0, null, "", false ]
 
 [node name="RunSettings" parent="." instance=ExtResource( 4 )]
+<<<<<<< HEAD
 margin_left = 226.0
 margin_right = 629.0
+=======
+margin_left = 206.0
+margin_right = 609.0
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 5
 
 [node name="SaveMetadata" type="Button" parent="."]
+<<<<<<< HEAD
 margin_left = 633.0
 margin_right = 737.0
+=======
+margin_left = 613.0
+margin_right = 717.0
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 margin_bottom = 24.0
 hint_tooltip = "Save metadata before uploading to source control if you use continous integration."
+size_flags_vertical = 5
 text = "Save Metadata"
 flat = true
 script = ExtResource( 5 )
 
 [node name="Links" type="MenuButton" parent="."]
+<<<<<<< HEAD
 margin_left = 741.0
 margin_right = 786.0
 margin_bottom = 20.0
+=======
+margin_left = 721.0
+margin_right = 766.0
+margin_bottom = 24.0
+>>>>>>> 94a6826000b986368de3fb2f597e266f9161fdf9
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 5
 text = "Links"
 items = [ "Support WAT", null, 0, false, false, 0, 0, "https://ko-fi.com/alexanddraw", "", false, "Report An Issue", null, 0, false, false, 1, 0, "https://github.com/CodeDarigan/WAT-GDScript/issues/new", "", false, "Request Docs", null, 0, false, false, 2, 0, "https://github.com/CodeDarigan/WAT-Documentation/issues/new", "", false, "Online Docs", null, 0, false, false, 3, 0, "https://wat.readthedocs.io/en/latest/", "", false ]
 script = ExtResource( 1 )
