@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/WAT/ui/scripts/GUI.gd" type="Script" id=1]
+[ext_resource path="res://addons/WAT/ui/scripts/gui.gd" type="Script" id=1]
 [ext_resource path="res://addons/WAT/ui/scenes/Core.tscn" type="PackedScene" id=3]
 
 [node name="Tests" type="PanelContainer"]
