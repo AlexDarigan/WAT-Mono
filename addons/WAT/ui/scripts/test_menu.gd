@@ -2,6 +2,13 @@ extends Button
 tool
 
 enum { RUN_ALL, RUN_DIR, RUN_SCRIPT, RUN_TAG, RUN_METHOD, RUN_FAILURES }
+var FOLDER_ICON: Texture
+var FAILED_ICON: Texture
+var SCRIPT_ICON: Texture
+var PLAY_ICON: Texture
+var PLAY_DEBUG_ICON: Texture
+var LABEL_ICON: Texture
+var FUNCTION_ICON: Texture
 const TestGatherer: Script = preload("res://addons/WAT/editor/test_gatherer.gd")
 const ABOUT_TO_SHOW: String = "about_to_show"
 const IDX_PRESSED: String = "index_pressed"
@@ -47,6 +54,7 @@ func _on_idx_pressed(idx: int, menu: PopupMenu) -> void:
 	
 func select_tests(metadata: Dictionary) -> void:
 	var tests: Array = []
+	var run_in_editor: bool = false
 	match metadata.command:
 		RUN_ALL:
 			tests = test.all
@@ -92,38 +100,36 @@ func _on_tag_editor_idx_pressed(idx, tagEditor) -> void:
 func _on_dirs_about_to_show() -> void:
 	refresh()
 	Directories.clear()
-	for item in Directories.get_item_count() - 1:
-		Directories.remove_item(item)
 	Directories.set_as_minsize()
 	Directories.add_item("Run All")
-	Directories.set_item_icon(0, load("res://addons/WAT/assets/play.png"))
+	Directories.set_item_icon(0, PLAY_ICON)
 	Directories.add_item("Run With Debug")
-	Directories.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
+	Directories.set_item_icon(1, PLAY_DEBUG_ICON)
 	Directories.add_item("Rerun Failures")
-	Directories.set_item_icon(2, load("res://addons/WAT/assets/failed.png"))
+	Directories.set_item_icon(2, FAILED_ICON)
 	Directories.add_item("Rerun Failures With Debug")
-	Directories.set_item_icon(3, load("res://addons/WAT/assets/failed.png"))
+	Directories.set_item_icon(3, FAILED_ICON)
 	Directories.add_submenu_item("Tags", "Tags")
-	Directories.set_item_icon(4, load("res://addons/WAT/assets/label.png"))
+	Directories.set_item_icon(4, LABEL_ICON)
 	Directories.set_item_metadata(0, {command = RUN_ALL, run_in_editor = true})
 	Directories.set_item_metadata(1, {command = RUN_ALL, run_in_editor = false})
 	Directories.set_item_metadata(2, {command = RUN_FAILURES, run_in_editor = true})
 	Directories.set_item_metadata(3, {command = RUN_FAILURES, run_in_editor = false})
+	if not Engine.is_editor_hint():
+		Directories.set_item_disabled(1, true)
 	var dirs: Array = test.dirs
 	if dirs.empty():
 		return
 	var idx: int = Directories.get_item_count()
-	var alreadyAdded = []
 	for dir in dirs:
-		if not test[dir].empty() and not alreadyAdded.has(dir):
-			alreadyAdded.append(dir)
+		if not test[dir].empty():
 			var script = Scripts.duplicate(true)
 			script.connect(IDX_PRESSED, self, ON_IDX_PRESSED, [script])
 			pool.append(script)
 			script.name = idx as String
 			Directories.add_child(script, true)
 			Directories.add_submenu_item(dir, idx as String, idx)
-			Directories.set_item_icon(idx, load("res://addons/WAT/assets/folder.png"))
+			Directories.set_item_icon(idx, FOLDER_ICON)
 			script.connect(ABOUT_TO_SHOW, self, "_on_scripts_about_to_show", [script])
 			idx += 1
 	
@@ -131,19 +137,24 @@ func _on_scripts_about_to_show(scripts) -> void:
 	refresh()
 	scripts.clear()
 	scripts.set_as_minsize()
+	
 	scripts.add_item("Run All")
-	var currentdir: String = Directories.get_item_text(Directories.get_item_index(scripts.name as int))
+	var currentdir: String = Directories.get_item_text(scripts.name as int)
 	scripts.set_item_metadata(0, {command = RUN_DIR, path = currentdir, run_in_editor = true})
-	scripts.set_item_icon(0,load("res://addons/WAT/assets/folder.png"))
+	scripts.set_item_icon(0,FOLDER_ICON)
+	
 	scripts.add_item("Run All With Debug")
 	scripts.set_item_metadata(1, {command = RUN_DIR, path = currentdir, run_in_editor = false})
-	scripts.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
+	scripts.set_item_icon(1, PLAY_DEBUG_ICON)
+	if not Engine.is_editor_hint():
+		scripts.set_item_disabled(1, true)
+	
 	var scriptlist: Array = test[currentdir]
 	if scriptlist.empty():
 		return
-	for child in scripts.get_children():
-		child.name += "Thrashed"
 	var idx: int = scripts.get_item_count()
+	for child in scripts.get_children():
+		child.name += "Thrash"
 	for script in scriptlist:
 		var method = Methods.duplicate(true)
 		method.connect(IDX_PRESSED, self, ON_IDX_PRESSED, [method])
@@ -151,7 +162,7 @@ func _on_scripts_about_to_show(scripts) -> void:
 		method.name = idx as String
 		scripts.add_child(method, true)
 		scripts.add_submenu_item(script["path"], method.name, idx)
-		scripts.set_item_icon(idx, load("res://addons/WAT/assets/script.png"))
+		scripts.set_item_icon(idx, SCRIPT_ICON)
 		method.connect(ABOUT_TO_SHOW, self, "_on_methods_about_to_show", [method, scripts])
 		idx += 1
 	
@@ -160,41 +171,35 @@ func _on_methods_about_to_show(methods, scripts) -> void:
 	methods.clear()
 	methods.set_as_minsize()
 	methods.add_item("Run All")
-	methods.add_item("Run All Debug")
+	methods.add_item("Run All With Debug")
 	var tag_editor = TagEditor.duplicate(true)
 	pool.append(tag_editor)
 	tag_editor.name = "tagEditor"
 	methods.add_child(tag_editor)
 	methods.add_submenu_item("Edit Tags", tag_editor.name)
 	tag_editor.connect(ABOUT_TO_SHOW, self, "_on_tag_editor_about_to_show", [tag_editor, scripts])
-	var currentScript: String = scripts.get_item_text(scripts.get_item_index(methods.name as int))
+	var currentScript: String = scripts.get_item_text(methods.name as int)
 	methods.set_item_metadata(0, {command = RUN_SCRIPT, path = currentScript, run_in_editor = true})
 	methods.set_item_metadata(1, {command = RUN_SCRIPT, path = currentScript, run_in_editor = false})
 	methods.set_item_metadata(2, {command = RUN_TAG, tag = "?"})
-	methods.set_item_icon(0, load("res://addons/WAT/assets/script.png"))
-	methods.set_item_icon(1, load("res://addons/WAT/assets/play_debug.png"))
-	methods.set_item_icon(2, load("res://addons/WAT/assets/label.png"))
-	var script = test.scripts[currentScript]["script"]
-	var methodlist = []
-	if script is GDScript:
-		methodlist = script.get_script_method_list()
-	else:
-		var instance = script.new()
-		methodlist = instance.GetScriptMethodList()
-		instance.free()
+	methods.set_item_icon(0, SCRIPT_ICON)
+	methods.set_item_icon(1, PLAY_DEBUG_ICON)
+	methods.set_item_icon(2, LABEL_ICON)
+	if not Engine.is_editor_hint():
+		methods.set_item_disabled(1, true)
+	var script: GDScript = test.scripts[currentScript]["script"]
+	var methodlist = script.get_script_method_list()
 	var idx: int = methods.get_item_count()
 	for method in methodlist:
-		if method.name.begins_with("test") or script is CSharpScript:
+		if method.name.begins_with("test"):
 			methods.add_item(method.name)
-			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name})
 			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = true})
-			methods.set_item_icon(idx, load("res://addons/WAT/assets/function.png"))
+			methods.set_item_icon(idx, FUNCTION_ICON)
 			idx += 1
 			methods.add_item(method.name + " (Debug) ")
 			methods.set_item_metadata(idx, {command = RUN_METHOD, path = script.get_path(), method = method.name, run_in_editor = false})
-			methods.set_item_icon(idx, load("res://addons/WAT/assets/function.png"))
+			methods.set_item_icon(idx, FUNCTION_ICON)
 			idx += 1
-
 	
 func _on_tags_about_to_show() -> void:
 	refresh()
@@ -209,6 +214,7 @@ func _on_tags_about_to_show() -> void:
 		Tags.add_item(taglabel + " (Debug) ")
 		Tags.set_item_metadata(idx, {command = RUN_TAG, tag = taglabel, run_in_editor = false})
 		idx += 1
+		
 		
 func _on_tag_editor_about_to_show(tagEditor, scripts) -> void:
 	refresh()
@@ -318,7 +324,7 @@ func _on_folder_removed(source: String) -> void:
 	test.dirs.erase(src)
 	
 func _on_resource_saved(resource: Resource) -> void:
-	if (not resource is Script) or (resource.get_instance_base_type() == "WAT.Test"):
+	if not resource is GDScript or not resource.get("TEST") == true:
 		# Not a valid test
 		return
 	var dir: String = resource.resource_path.substr(0, resource.resource_path.find_last("/"))
@@ -356,3 +362,13 @@ func _add_test_dirs_recursively(path: String) -> void:
 		subdirs.append(title)
 	for subdir in subdirs:
 		_add_test_dirs_recursively(subdir)
+
+# Loads scaled assets like icons and fonts
+func _setup_editor_assets(assets_registry):
+	FOLDER_ICON = assets_registry.load_asset("assets/folder.png")
+	FAILED_ICON = assets_registry.load_asset("assets/failed.png")
+	SCRIPT_ICON = assets_registry.load_asset("assets/script.png")
+	PLAY_ICON = assets_registry.load_asset("assets/play.png")
+	PLAY_DEBUG_ICON = assets_registry.load_asset("assets/play_debug.png")
+	LABEL_ICON = assets_registry.load_asset("assets/label.png")
+	FUNCTION_ICON = assets_registry.load_asset("assets/function.png")

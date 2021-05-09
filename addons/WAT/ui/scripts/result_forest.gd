@@ -98,4 +98,3 @@ func _setup_editor_assets(assets_registry):
 	_assets_registry = assets_registry
 	PASSED_ICON = assets_registry.load_asset("assets/passed.png")
 	FAILED_ICON = assets_registry.load_asset("assets/failed.png")
-

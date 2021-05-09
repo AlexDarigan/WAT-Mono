@@ -9,6 +9,9 @@ margin_bottom = 24.0
 text = "Select Test"
 flat = true
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Directories" type="PopupMenu" parent="."]
 margin_right = 20.0

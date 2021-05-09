@@ -1,7 +1,7 @@
 extends Tree
 tool
 
-var FUNCTION: Texture
+var FUNCTION_ICON: Texture
 var PASSED_ICON: Texture
 var FAILED_ICON: Texture
 const PASSED: Color = Color(0, 1, 0, 1)
@@ -42,7 +42,7 @@ func display(cases: Array) -> void:
 			method.set_icon(0, _icon(m.success))
 			_cache.append(method)
 			_mega_cache.append(method)
-			method.add_button(0, FUNCTION)
+			method.add_button(0, FUNCTION_ICON)
 			method.set_tooltip(0, "Click icon to show test method in editor")
 			method.set_meta("path", c.path)
 			method.set_meta("context", m.context)
@@ -95,7 +95,7 @@ func expand_failures() -> void:
 
 # Loads scaled assets like icons and fonts
 func _setup_editor_assets(assets_registry):
-	FUNCTION = assets_registry.load_asset("assets/function.png")
+	FUNCTION_ICON = assets_registry.load_asset("assets/function.png")
 	PASSED_ICON = assets_registry.load_asset("assets/passed.png")
 	FAILED_ICON = assets_registry.load_asset("assets/failed.png")
 
