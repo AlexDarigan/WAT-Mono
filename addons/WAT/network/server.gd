@@ -24,6 +24,7 @@ func host() -> void:
 	
 func _on_peer_connected(id: int) -> void:
 	rpc_id(id, "test_strategy_received", tests, threads)
+	_server.set_peer_timeout(id, 59000, 60000, 61000)
 
 master func _on_run_completed(results: Array) -> void:
 	rpc_id(multiplayer.get_rpc_sender_id(), "run_completion_confirmed")
